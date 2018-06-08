@@ -4,6 +4,7 @@ import br.com.qisi.skeleton.utils.BeansUtil;
 import br.com.qisi.skeleton.utils.base.model.BaseModel;
 import br.com.qisi.skeleton.utils.base.repository.BaseRepository;
 import br.com.qisi.skeleton.utils.base.utils.Command;
+import br.com.qisi.skeleton.utils.exception.BadRequestException;
 import br.com.qisi.skeleton.utils.exception.NotFoundException;
 import br.com.qisi.skeleton.utils.specification.BaseSpecification;
 import lombok.extern.slf4j.Slf4j;
@@ -76,16 +77,15 @@ public class BaseService<T extends BaseModel>{
 
   public T pathNonNull(T t) {
     log.debug("pathNonNull BaseService");
-    T tPersistido = this.findByExample(t);
-    T tAtualizado = new BeansUtil<T>().copyNonNullProperties(t, tPersistido);
-    return this.save(tAtualizado);
-  }
-
-  public T pathNonNull(T t) {
-    log.debug("pathNonNull BaseService");
-    T tPersistido = this.findById(t.getId());
+    T tPersistido = this.findById(t.getId()).orElseThrow(() -> {
+      throw new BadRequestException("Recurso não encontrado");
+    });
     T tAtualizado = new BeansUtil<T>().copyNonNullProperties(t, tPersistido);
     return this.saveOrUpdate(tAtualizado);
+  }
+
+  public Optional<T> findById(Long id){
+    return this.baseRepository.findById(id);
   }
 
   protected Command<T> beforePost(){
