@@ -58,19 +58,20 @@ public class BaseController<T extends BaseModel>{
     return this.baseService.doPost(t);
   }
 
-  @PutMapping
+  @PutMapping("{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void putRequest(@Valid T t){
+  public void putRequest(@NonNull @PathVariable("id") Long id, @RequestBody T t){
     log.debug("Put request: " + t.getClass().getName());
     this.baseService.saveOrUpdate(t);
   }
 
   @PatchMapping("{id}")
   @ResponseStatus(HttpStatus.OK)
-  public T patchRequest(@NonNull @PathVariable("id") Long id, @RequestBody @Valid T t){
+  public T patchRequest(@NonNull @PathVariable("id") Long id, @RequestBody T t){
     t.setId(id);
     return this.baseService.pathNonNull(t);
   }
+
 
   @DeleteMapping("{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)

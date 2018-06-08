@@ -81,6 +81,13 @@ public class BaseService<T extends BaseModel>{
     return this.save(tAtualizado);
   }
 
+  public T pathNonNull(T t) {
+    log.debug("pathNonNull BaseService");
+    T tPersistido = this.findById(t.getId());
+    T tAtualizado = new BeansUtil<T>().copyNonNullProperties(t, tPersistido);
+    return this.saveOrUpdate(tAtualizado);
+  }
+
   protected Command<T> beforePost(){
     log.debug("beforePost without implementation ");
     return t-> t;
