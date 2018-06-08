@@ -4,15 +4,17 @@ import com.xebialabs.restito.builder.stub.StubHttp;
 import com.xebialabs.restito.semantics.Condition;
 import com.xebialabs.restito.semantics.ConditionWithApplicables;
 import com.xebialabs.restito.server.StubServer;
+
+import org.glassfish.grizzly.http.util.HttpStatus;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cucumber.api.DataTable;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import lombok.Value;
-import org.glassfish.grizzly.http.util.HttpStatus;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.resourceContent;
@@ -29,7 +31,7 @@ public class CallsSteps {
 
   @Before
   public void setUp() {
-    server = new StubServer(9090).run();
+    server = new StubServer(9093).run();
     stubHttp = whenHttp(server);
   }
 
@@ -39,7 +41,7 @@ public class CallsSteps {
   }
 
   @Given("^The call to external service should be:$")
-  public void theCallToExternalServiceShouldBe(final DataTable data) throws Throwable {
+  public void theCallToExternalServiceShouldBe(final DataTable data){
 
     final List<Call> calls = data.asList(Call.class);
 
@@ -47,7 +49,7 @@ public class CallsSteps {
       stubHttp.match(call.getHttpMethod(), call.buildQueryParams()).then(
               status(HttpStatus.getHttpStatus(call.getStatusCode())),
               resourceContent(Thread.currentThread().getContextClassLoader()
-                      .getResource("fixtures/" + call.getFilename())));
+                      .getResource("restito/" + call.getFilename())));
     }
   }
 
