@@ -1,4 +1,4 @@
-package br.com.qisi.skeleton.skeleton.servide;
+package br.com.qisi.skeleton.skeleton.service;
 
 import br.com.qisi.skeleton.skeleton.model.Skeleton;
 import br.com.qisi.skeleton.utils.base.service.BaseService;
