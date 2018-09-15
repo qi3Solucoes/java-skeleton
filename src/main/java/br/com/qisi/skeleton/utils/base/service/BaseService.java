@@ -77,7 +77,7 @@ public class BaseService<T extends BaseModel>{
 
   public T pathNonNull(T t) {
     log.debug("pathNonNull BaseService");
-    T tPersistido = this.findById(t.getId()).orElseThrow(() -> {
+    T tPersistido = this.findById(t.getId()).<BadRequestException>orElseThrow(() -> {
       throw new BadRequestException("Recurso não encontrado");
     });
     T tAtualizado = new BeansUtil<T>().copyNonNullProperties(t, tPersistido);
