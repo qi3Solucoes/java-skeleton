@@ -81,13 +81,13 @@ public class DatabaseSteps {
     boolean needCreatedDate = Boolean.FALSE;
     boolean needModifiedDate = Boolean.FALSE;
 
-    if(!columns.contains("data_criacao")){
-      columns.add("data_criacao");
+    if(!columns.contains("created_date")){
+      columns.add("created_date");
       needCreatedDate = Boolean.TRUE;
     }
 
-    if(!columns.contains("data_alteracao")){
-      columns.add("data_alteracao");
+    if(!columns.contains("last_modified_date")){
+      columns.add("last_modified_date");
       needModifiedDate = Boolean.TRUE;
     }
 
