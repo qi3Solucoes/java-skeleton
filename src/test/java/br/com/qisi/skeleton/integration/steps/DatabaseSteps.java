@@ -261,13 +261,5 @@ public class DatabaseSteps {
   @Before
   public void cleanDb() throws SQLException, ClassNotFoundException {
     this.resetAllH2Sequences();
-    this.resetTable("veiculos_categorias");
-    this.resetTable("calculos_customizados");
-    this.resetTable("valores_calculos");
-    this.resetTable("valores_viagem");
-    this.resetTable("formas_pagamento");
-    this.resetTable("usuarios");
-    this.resetTable("cidades");
-    this.resetTable("validacao_telefone");
   }
 }
