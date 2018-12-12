@@ -10,16 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -43,6 +34,13 @@ public class BaseController<T extends BaseModel>{
   public T findOne(T t) {
     log.debug("get request -> id: " + t.getId() + t.getClass().getName());
     return this.baseService.findByExample(t);
+  }
+
+  @GetMapping("/queries")
+  @ResponseStatus(HttpStatus.OK)
+  public Page<T> buscaPaginadaQueries(@RequestParam("q") String query, Pageable pageable){
+    log.debug("get all with queries filter request");
+    return this.baseService.buscaPaginadaWithQuery(query,pageable);
   }
 
   @GetMapping("/filtros")
